@@ -4,6 +4,7 @@ metadata:
   name: {{ include "les-projets-cagnottes.fullname" . }}
   labels:
     {{- include "les-projets-cagnottes.labels" . | nindent 4 }}
+    component: api
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -13,3 +14,4 @@ spec:
       name: http
   selector:
     {{- include "les-projets-cagnottes.selectorLabels" . | nindent 4 }}
+    component: api

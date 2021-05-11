@@ -5,11 +5,12 @@ metadata:
   name: {{ include "les-projets-cagnottes.fullname" . }}
   labels:
     {{- include "les-projets-cagnottes.labels" . | nindent 4 }}
+    component: api
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "les-projets-cagnottes.fullname" . }}
+    name: {{ include "les-projets-cagnottes.fullname" . }}-api
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

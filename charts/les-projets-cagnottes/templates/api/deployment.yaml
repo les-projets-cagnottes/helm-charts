@@ -4,6 +4,7 @@ metadata:
   name: {{ include "les-projets-cagnottes.fullname" . }}
   labels:
     {{- include "les-projets-cagnottes.labels" . | nindent 4 }}
+    component: api
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -11,6 +12,7 @@ spec:
   selector:
     matchLabels:
       {{- include "les-projets-cagnottes.selectorLabels" . | nindent 6 }}
+      component: api
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,6 +21,7 @@ spec:
       {{- end }}
       labels:
         {{- include "les-projets-cagnottes.selectorLabels" . | nindent 8 }}
+        component: api
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -31,8 +34,8 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 80
