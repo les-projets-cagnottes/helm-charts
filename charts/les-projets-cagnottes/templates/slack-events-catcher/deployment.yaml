@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "les-projets-cagnottes.fullname" . }}-slack-events-catcher
+  labels:
+    {{- include "les-projets-cagnottes.labels" . | nindent 4 }}
+    component: slack-events-catcher
+spec:
+  {{- if not .Values.slackEventsCatcher.autoscaling.enabled }}
+  replicas: {{ .Values.slackEventsCatcher.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "les-projets-cagnottes.selectorLabels" . | nindent 6 }}
+      component: slack-events-catcher
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "les-projets-cagnottes.selectorLabels" . | nindent 8 }}
+        component: slack-events-catcher
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "les-projets-cagnottes.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.slackEventsCatcher.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.slackEventsCatcher.image.repository }}:{{ .Values.slackEventsCatcher.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.slackEventsCatcher.image.pullPolicy }}
+          ports:
+            - name: node
+              containerPort: {{ .Values.slackEventsCatcher.containerPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /slack/events
+              port: node
+          readinessProbe:
+            httpGet:
+              path: /slack/events
+              port: node
+          env:
+            - name: PORT
+              value: "{{ .Values.slackEventsCatcher.port }}"
+            - name: LPC_CORE_API_URL
+              value: "http://les-projets-cagnottes-api"
+            {{- if .Values.slack.existingSecret }}
+            - name: LPC_SLACK_SIGNING_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.slack.existingSecret.name }}
+                  key: {{ .Values.slack.existingSecret.signingSecretKey }}
+            {{- end }}
+            {{- range .Values.slackEventsCatcher.secretsEnv }}
+              {{- $secretName := .secretName }}
+              {{- range $key, $value :=  .env }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ $value }}
+              {{- end }}
+            {{- end }}
+            {{- range $key, $value := .Values.slackEventsCatcher.env }}
+            - name: "{{ $key }}"
+              value: "{{ $value }}"
+            {{- end }}
+          resources:
+            {{- toYaml .Values.slackEventsCatcher.resources | nindent 12 }}
+      {{- with .Values.slackEventsCatcher.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.slackEventsCatcher.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.slackEventsCatcher.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

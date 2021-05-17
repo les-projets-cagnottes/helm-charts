@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "les-projets-cagnottes.fullname" . }}-slack-events-catcher
+  labels:
+    {{- include "les-projets-cagnottes.labels" . | nindent 4 }}
+    component: slack-events-catcher
+spec:
+  type: {{ .Values.slackEventsCatcher.service.type }}
+  ports:
+    - port: {{ .Values.slackEventsCatcher.service.port }}
+      targetPort: node
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "les-projets-cagnottes.selectorLabels" . | nindent 4 }}
+    component: slack-events-catcher

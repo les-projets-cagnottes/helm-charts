@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "les-projets-cagnottes.fullname" . }}-api
+  name: {{ include "les-projets-cagnottes.fullname" . }}-web
   labels:
     {{- include "les-projets-cagnottes.labels" . | nindent 4 }}
-    component: api
+    component: web
 spec:
-  type: {{ .Values.api.service.type }}
+  type: {{ .Values.web.service.type }}
   ports:
-    - port: {{ .Values.api.service.port }}
-      targetPort: api
+    - port: {{ .Values.web.service.port }}
+      targetPort: http
       protocol: TCP
       name: http
   selector:
     {{- include "les-projets-cagnottes.selectorLabels" . | nindent 4 }}
-    component: api
+    component: web
