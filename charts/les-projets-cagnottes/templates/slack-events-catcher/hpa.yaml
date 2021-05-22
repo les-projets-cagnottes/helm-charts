@@ -1,4 +1,4 @@
-{{- if .Values.slackEventsCatcher.autoscaling.enabled }}
+{{- if and .Values.slack.enabled (.Values.slackEventsCatcher.autoscaling.enabled) }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:

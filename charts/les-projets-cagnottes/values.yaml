@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.7.2"
+    tag: "0.7.3-SNAPSHOT"
 
   containerPort: 8080
 
@@ -125,7 +125,7 @@ slackEventsCatcher:
   image:
     repository: lesprojetscagnottes/slack-events-catcher
     pullPolicy: IfNotPresent
-    tag: "0.5.1"
+    tag: "0.5.2-SNAPSHOT"
 
   containerPort: 3000
 
@@ -200,17 +200,21 @@ ingress:
       - path: /
         backend:
           serviceName: les-projets-cagnottes-web
+          servicePort: 80
       - path: /api/
         backend:
           serviceName: les-projets-cagnottes-api
-      - path: /slack/
-        backend:
-          serviceName: les-projets-cagnottes-slack-events-catcher
+          servicePort: 80
+      # - path: /slack/
+      #   backend:
+      #     serviceName: les-projets-cagnottes-slack-events-catcher
+      #     servicePort: 80
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
+# Must be enabled in order to make slack-events-catcher to work
 persistence: {}
   # enabled: true
   # accessMode: ReadWriteOnce
@@ -231,7 +235,9 @@ postgresql:
   postgresqlDatabase: lesprojetscagnottes
 
 slack: {}
+  # enabled: true
   # existingSecret:
-  #   name: slack-lesprojetscagnottes
+  #   name: les-projets-cagnottes-slack
   #   clientIdKey: clientId
   #   clientSecretKey: clientSecret
+  #   signingSecretKey: signingSecret
