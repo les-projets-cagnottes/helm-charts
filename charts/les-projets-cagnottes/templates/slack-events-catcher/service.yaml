@@ -1,3 +1,4 @@
+{{- if .Values.slack.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -15,3 +16,4 @@ spec:
   selector:
     {{- include "les-projets-cagnottes.selectorLabels" . | nindent 4 }}
     component: slack-events-catcher
+{{- end }}

@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
 
 jobs:
   release:
@@ -49,6 +48,9 @@ jobs:
 
       - name: Run chart-testing (install)
         run: ct install
+        
+      - name: Add bitnami dependency
+        run: helm repo add bitnami https://charts.bitnami.com/bitnami
         
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.1
