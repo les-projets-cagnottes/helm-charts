@@ -105,25 +105,27 @@ spec:
             - name: "{{ $key }}"
               value: "{{ $value }}"
             {{- end }}
-          {{- if .Values.persistence.enabled }}
+          {{- if or .Values.persistence.config.enabled .Values.persistence.img.enabled }}
           volumeMounts:
+            {{- if .Values.persistence.config.enabled }}
             - name : config
               mountPath : /workspace/files/config
-              subPath: config
+            {{- end }}
+            {{- if .Values.persistence.config.enabled }}
             - name : img
               mountPath : /workspace/files/img
-              subPath: img
+            {{- end }}
           {{- end }}
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
-      {{- if .Values.persistence.enabled }}
+      {{- if .Values.persistence.config.enabled }}
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}
+            claimName: {{ .Values.persistence.config.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-config
         - name: img
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}
+            claimName: {{ .Values.persistence.img.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-img
       {{- end -}}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:

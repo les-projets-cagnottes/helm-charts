@@ -76,7 +76,7 @@ web:
       "webUrl": "http://les-projets-cagnottes.localhost",
       "apiUrl": "http://les-projets-cagnottes.localhost/api",
       "slackClientId": "",
-      "version": "0.7.2",
+      "version": "RELEASE",
       "versionUrl": "https://github.com/les-projets-cagnottes/"
     }
 
@@ -215,10 +215,15 @@ ingress:
   #      - chart-example.local
 
 # Must be enabled in order to make slack-events-catcher to work
-persistence: {}
-  # enabled: true
-  # accessMode: ReadWriteOnce
-  # size: 512Mi
+persistence: 
+  config: {}
+    # enabled: true
+    # accessMode: ReadWriteOnce
+    # size: 1Mi
+  img: {}
+    # enabled: true
+    # accessMode: ReadWriteOnce
+    # size: 1Gi
 
 db:
   url: jdbc:postgresql://lesprojetscagnottes-postgresql:5432/lesprojetscagnottes

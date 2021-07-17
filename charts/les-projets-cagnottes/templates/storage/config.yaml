@@ -1,0 +1,22 @@
+{{- if and .Values.persistence.config.enabled (not .Values.persistence.config.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "les-projets-cagnottes.fullname" . }}-config
+  labels:
+    {{- include "les-projets-cagnottes.labels" . | nindent 4 }}
+    component: storage
+spec:
+  accessModes:
+    - {{ .Values.persistence.config.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.config.size | quote }}
+  {{- if .Values.persistence.config.storageClass }}
+    {{- if (eq "-" .Values.persistence.config.storageClass) }}
+  storageClassName: ""
+    {{- else }}
+  storageClassName: "{{ .Values.persistence.config.storageClass }}"
+    {{- end }}
+  {{- end }}
+{{- end }}
