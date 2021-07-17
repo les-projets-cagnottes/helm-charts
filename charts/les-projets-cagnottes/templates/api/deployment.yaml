@@ -42,11 +42,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /api/health
+              path: /actuator/health
               port: api
           readinessProbe:
             httpGet:
-              path: /api/health
+              path: /actuator/health
               port: api
           env:
             - name: PORT
