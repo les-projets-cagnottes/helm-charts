@@ -48,6 +48,11 @@ spec:
             httpGet:
               path: /actuator/health
               port: api
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: api
+            failureThreshold: 15
           env:
             - name: PORT
               value: "{{ .Values.api.port }}"
