@@ -44,6 +44,9 @@ spec:
             - name: config
               mountPath: /usr/share/nginx/html/fr/assets/config.json
               subPath: "config.json"
+            - name : data
+              mountPath : /usr/share/nginx/html/fr/assets/img
+              subPath: img
           livenessProbe:
             httpGet:
               path: /
@@ -75,6 +78,9 @@ spec:
         - name: config
           configMap:
             name: {{ include "les-projets-cagnottes.fullname" . }}-web
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
