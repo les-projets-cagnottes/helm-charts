@@ -107,10 +107,10 @@ spec:
             {{- end }}
           {{- if .Values.persistence.enabled }}
           volumeMounts:
-            - name : data
+            - name : config
               mountPath : /workspace/files/config
               subPath: config
-            - name : data
+            - name : img
               mountPath : /workspace/files/img
               subPath: img
           {{- end }}
@@ -118,7 +118,10 @@ spec:
             {{- toYaml .Values.api.resources | nindent 12 }}
       {{- if .Values.persistence.enabled }}
       volumes:
-        - name: data
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}
+        - name: img
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}
       {{- end -}}
