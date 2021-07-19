@@ -58,7 +58,7 @@ spec:
               value: "{{ .Values.api.port }}"
             - name: SPRING_DATASOURCE_URL
               value: {{ .Values.db.url }}
-            - name: LPC_WEB_URL
+            - name: FR_LESPROJETSCAGNOTTES_WEB_URL
               value: {{ .Values.web.url }}
             - name: FR_LESPROJETSCAGNOTTES_SLACK_ENABLED
               value: "{{ .Values.slack.enabled | default false }}"
@@ -80,12 +80,12 @@ spec:
               value: {{ .Values.postgresql.postgresqlPassword }}
             {{- end }}
             {{- if .Values.slack.existingSecret }}
-            - name: LPC_SLACK_CLIENT_ID
+            - name: FR_LESPROJETSCAGNOTTES_SLACK_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.slack.existingSecret.name }}
                   key: {{ .Values.slack.existingSecret.clientIdKey }}
-            - name: LPC_SLACK_CLIENT_SECRET
+            - name: FR_LESPROJETSCAGNOTTES_SLACK_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.slack.existingSecret.name }}
