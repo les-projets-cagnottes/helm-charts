@@ -67,7 +67,7 @@ web:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
     tag: "0.10.0"
-
+    
   containerPort: 80
 
   url: "http://les-projets-cagnottes.localhost"
