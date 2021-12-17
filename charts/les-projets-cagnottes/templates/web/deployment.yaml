@@ -31,7 +31,7 @@ spec:
       securityContext:
         {{- toYaml .Values.web.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: web
           securityContext:
             {{- toYaml .Values.web.securityContext | nindent 12 }}
           image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag | default .Chart.AppVersion }}"
@@ -44,8 +44,6 @@ spec:
             - name: config
               mountPath: /usr/share/nginx/html/fr/assets/config.json
               subPath: "config.json"
-            - name : img
-              mountPath : /usr/share/nginx/html/fr/assets/img
           livenessProbe:
             httpGet:
               path: /
@@ -77,9 +75,6 @@ spec:
         - name: config
           configMap:
             name: {{ include "les-projets-cagnottes.fullname" . }}-web
-        - name: img
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.img.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-img
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
