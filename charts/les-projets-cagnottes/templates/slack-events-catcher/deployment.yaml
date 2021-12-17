@@ -31,8 +31,20 @@ spec:
       serviceAccountName: {{ include "les-projets-cagnottes.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.slackEventsCatcher.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: wait-for-token
+          image: busybox:1.28
+          command:
+            - sh
+            - -c
+            - until test -f /usr/src/files/slack-events-catcher/token; do echo en attente de fichier; sleep 2; done
+          {{- if .Values.slack.enabled }}
+          volumeMounts:
+            - name : slack-events-catcher
+              mountPath : /usr/src/files/slack-events-catcher
+          {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: slack-events-catcher
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.slackEventsCatcher.image.repository }}:{{ .Values.slackEventsCatcher.image.tag | default .Chart.AppVersion }}"
@@ -67,17 +79,19 @@ spec:
             - name: "{{ $key }}"
               value: "{{ $value }}"
             {{- end }}
-          {{- if .Values.persistence.config.enabled }}
+          {{- if .Values.slack.enabled }}
           volumeMounts:
-            - name : config
-              mountPath : /usr/src/files/config
+            - name : slack-events-catcher
+              mountPath : /usr/src/files/slack-events-catcher
           {{- end }}
           resources:
             {{- toYaml .Values.slackEventsCatcher.resources | nindent 12 }}
+      {{- if .Values.persistence.enabled }}
       volumes:
-        - name: config
+        - name: slack-events-catcher
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.config.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-config
+            claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-slackeventscatcher
+      {{- end }}
       {{- with .Values.slackEventsCatcher.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

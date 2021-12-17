@@ -1,5 +1,5 @@
 {{- $fullName := include "les-projets-cagnottes.fullname" . -}}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "les-projets-cagnottes.fullname" . }}
@@ -27,8 +27,11 @@ spec:
         paths:
           {{- range .paths }}
           - path: {{ .path }}
+            pathType: Prefix
             backend:
-              serviceName: {{ .backend.serviceName }}
-              servicePort: {{ .backend.servicePort }}
+              service:
+                name: {{ .backend.serviceName }}
+                port:
+                  number: {{ .backend.servicePort }}
           {{- end }}
     {{- end }}

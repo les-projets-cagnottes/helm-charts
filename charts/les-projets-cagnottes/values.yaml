@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.9.4"
+    tag: "0.10.2"
 
   containerPort: 8080
 
@@ -66,8 +66,8 @@ web:
   image:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
-    tag: "0.9.4"
-
+    tag: "0.10.0"
+    
   containerPort: 80
 
   url: "http://les-projets-cagnottes.localhost"
@@ -125,7 +125,7 @@ slackEventsCatcher:
   image:
     repository: lesprojetscagnottes/slack-events-catcher
     pullPolicy: IfNotPresent
-    tag: "0.5.3"
+    tag: "0.5.4"
 
   containerPort: 3000
 
@@ -215,15 +215,10 @@ ingress:
   #      - chart-example.local
 
 # Must be enabled in order to make slack-events-catcher to work
-persistence: 
-  config: {}
-    # enabled: true
-    # accessMode: ReadWriteOnce
-    # size: 1Mi
-  img: {}
-    # enabled: true
-    # accessMode: ReadWriteOnce
-    # size: 1Gi
+persistence: {}
+  # enabled: true
+  # accessMode: ReadWriteOnce
+  # size: 1Mi
 
 db:
   url: jdbc:postgresql://lesprojetscagnottes-postgresql:5432/lesprojetscagnottes
