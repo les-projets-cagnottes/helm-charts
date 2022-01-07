@@ -48,11 +48,13 @@ spec:
             httpGet:
               path: /actuator/health
               port: api
+          {{- if semverCompare ">=1.16-0" .Capabilities.KubeVersion.GitVersion }}
           startupProbe:
             httpGet:
               path: /actuator/health
               port: api
             failureThreshold: 15
+          {{- end }}
           env:
             - name: PORT
               value: "{{ .Values.api.port }}"
