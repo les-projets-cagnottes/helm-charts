@@ -32,7 +32,7 @@ $ helm delete kindly-newt
 
 ### Using external PostgreSQL database
 
-1. Create a yaml file `db-postgres.yaml` which will bind a local kubernetes host `db-postgres` to the external hostname of the database
+1. Create the following ExternalName Service
 
 ```yaml
 apiVersion: v1
@@ -44,7 +44,7 @@ spec:
   type: ExternalName
 ```
 
-2. Create a yaml file `db-lesprojetscagnottes.yaml` with a secret containing credentials to access database
+2. Add the following Secret
 
 ```yaml
 apiVersion: v1
@@ -56,14 +56,7 @@ data:
   password: <Password in Base64>
 ```
 
-3. Upload the two files
-
-```shell
-$ kubectl apply -f db-mysql.yaml
-$ kubectl apply -f db-db-lesprojetscagnottes.yaml
-```
-
-4. Set the following values of the chart:
+3. Set the following values of the chart:
 
 ```yaml
 db:
@@ -76,3 +69,36 @@ db:
 postgresql:
   enabled: false
 ```
+
+### Add Microsoft connexion
+
+1. Add the following Secret
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: microsoft-lesprojetscagnottes
+data:
+  FR_LESPROJETSCAGNOTTES_MICROSOFT_CLIENT_ID: <Client ID in Base64>
+  FR_LESPROJETSCAGNOTTES_MICROSOFT_CLIENT_SECRET: <Client secret in Base64>
+  FR_LESPROJETSCAGNOTTES_MICROSOFT_TENANT_ID: <Tenant ID in Base64>
+```
+
+2. Update the values
+
+```yaml
+web:
+  config: |-
+    {
+      "microsoftEnabled": true,
+      "microsoftTenantId": "<Tenant ID>",
+      "microsoftClientId": "<Client ID>"
+    }
+
+microsoft:
+  enabled: true
+  existingSecret:
+    name: microsoft-lesprojetscagnottes
+```
+

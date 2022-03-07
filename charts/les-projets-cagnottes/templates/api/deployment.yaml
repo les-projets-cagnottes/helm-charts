@@ -64,6 +64,8 @@ spec:
               value: {{ .Values.web.url }}
             - name: FR_LESPROJETSCAGNOTTES_SLACK_ENABLED
               value: "{{ .Values.slack.enabled | default false }}"
+            - name: FR_LESPROJETSCAGNOTTES_MICROSOFT_ENABLED
+              value: "{{ .Values.microsoft.enabled | default false }}"
             {{- if .Values.db.existingSecret }}
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
@@ -107,6 +109,11 @@ spec:
             - name: "{{ $key }}"
               value: "{{ $value }}"
             {{- end }}
+          {{- if .Values.microsoft.existingSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.microsoft.existingSecret.name }}
+          {{- end }}
           {{- if or .Values.persistence.enabled .Values.slack.enabled }}
           volumeMounts:
             {{- if .Values.persistence.enabled }}

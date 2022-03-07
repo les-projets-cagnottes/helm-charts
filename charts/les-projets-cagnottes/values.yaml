@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.11.1"
+    tag: "0.12.0"
 
   containerPort: 8080
 
@@ -40,6 +40,8 @@ api:
   env: {}
     # SPRING_JPA_HIBERNATE_DDL-AUTO: update
     # LOGGING_LEVEL_FR_LESPROJETSCAGNOTTES: INFO
+    # FR_LESPROJETSCAGNOTTES_ADMINPASSWORD: admin
+    # FR_LESPROJETSCAGNOTTES_CORE_URL: https://les-projets-cagnottes.fr
 
   secretsEnv: []
     # - secretName: ""
@@ -66,17 +68,22 @@ web:
   image:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
-    tag: "0.11.1"
+    tag: "0.12.0"
 
   containerPort: 80
 
   url: "http://les-projets-cagnottes.localhost"
   config: |-
     {
+      "slackEnabled": true,
+      "slackClientId": "115462816321.761013265159"
       "webUrl": "http://les-projets-cagnottes.localhost",
       "apiUrl": "http://les-projets-cagnottes.localhost/api",
       "slackEnabled": true,
-      "slackClientId": "115462816321.761013265159"
+      "slackClientId": "1267900044419.1280463132273",
+      "microsoftEnabled": true,
+      "microsoftTenantId": "ab8f3573-a42c-4b8b-a615-f03fd683bbbd",
+      "microsoftClientId": "08a651e0-9f49-4984-9834-2ad26a490f86"
     }
 
   service:
@@ -240,3 +247,8 @@ slack: {}
   #   clientIdKey: clientId
   #   clientSecretKey: clientSecret
   #   signingSecretKey: signingSecret
+
+microsoft:
+  enabled: true
+  existingSecret:
+    name: les-projets-cagnottes-microsoft
