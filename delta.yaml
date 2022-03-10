@@ -1,0 +1,65 @@
+api:
+  image:
+    repository: docker-hub.cnieg.fr/lesprojetscagnottes/api
+    tag: 0.12.0-SNAPSHOT
+    pullPolicy: Always
+  env:
+    FR_LESPROJETSCAGNOTTES_ADMINPASSWORD: admin
+    FR_LESPROJETSCAGNOTTES_CORE_URL: https://les-projets-cagnottes.delta.cnieg.fr
+    HTTP_PROXY: http://proxy-http:8080
+    JAVA_OPTS: -Djava.net.useSystemProxies=true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+web:
+  image:
+    repository: docker-hub.cnieg.fr/lesprojetscagnottes/web
+  url: "https://les-projets-cagnottes.delta.cnieg.fr"
+  config: |-
+    {
+      "webUrl": "https://les-projets-cagnottes.delta.cnieg.fr",
+      "apiUrl": "https://les-projets-cagnottes.delta.cnieg.fr/api",
+      "slackEnabled": false,
+      "microsoftEnabled": true,
+      "microsoftTenantId": "8d9a9733-be3f-4fc7-b335-daeefd242ad2",
+      "microsoftClientId": "d6844581-f213-439f-b06a-aa134da26b27"
+    }
+ingress:
+  enabled: true
+  hosts:
+  - host: les-projets-cagnottes.delta.cnieg.fr
+    paths:
+    - path: /
+      backend:
+        serviceName: les-projets-cagnottes-web
+        servicePort: 80
+    - path: /api/
+      backend:
+        serviceName: les-projets-cagnottes-api
+        servicePort: 80
+    - path: /files/
+      backend:
+        serviceName: les-projets-cagnottes-api
+        servicePort: 80
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+db:
+  url: jdbc:postgresql://db-postgres:5432/lesprojetscagnottes
+  existingSecret:
+    name: db-lesprojetscagnottes
+    usernameKey: username
+    passwordKey: password
+postgresql:
+  enabled: false
+slack:
+  enabled: false
+microsoft:
+  enabled: true
+  existingSecret:
+    name: microsoft-lesprojetscagnottes

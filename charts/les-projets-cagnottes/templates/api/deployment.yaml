@@ -118,11 +118,11 @@ spec:
           volumeMounts:
             {{- if .Values.persistence.enabled }}
             - name : data
-              mountPath : /workspace/files/data
+              mountPath : /workspace/data
             {{- end -}}
             {{- if .Values.slack.enabled }}
             - name : slack-events-catcher
-              mountPath : /workspace/files/slack-events-catcher
+              mountPath : /workspace/slack-events-catcher
             {{- end -}}
           {{- end }}
           resources:
