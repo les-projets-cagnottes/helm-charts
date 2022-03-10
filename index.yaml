@@ -3,6 +3,21 @@ entries:
   les-projets-cagnottes:
   - apiVersion: v2
     appVersion: 0.12.0
+    created: "2022-03-10T13:15:24.38332852Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.4.5
+    description: Helm chart to deploy Les Projets Cagnottes in a Kubernetes cluster
+    digest: 16a95b43dd09a5b98c894114aa7e962a8b64fa7950d201deebdd47ef0fe60f77
+    name: les-projets-cagnottes
+    type: application
+    urls:
+    - https://github.com/les-projets-cagnottes/helm-charts/releases/download/les-projets-cagnottes-0.5.1/les-projets-cagnottes-0.5.1.tgz
+    version: 0.5.1
+  - apiVersion: v2
+    appVersion: 0.12.0
     created: "2022-03-07T13:22:10.683143789Z"
     dependencies:
     - condition: postgresql.enabled
@@ -346,4 +361,4 @@ entries:
     urls:
     - https://github.com/les-projets-cagnottes/helm-charts/releases/download/les-projets-cagnottes-0.1.1/les-projets-cagnottes-0.1.1.tgz
     version: 0.1.1
-generated: "2022-03-07T13:22:10.683304294Z"
+generated: "2022-03-10T13:15:24.384009421Z"
