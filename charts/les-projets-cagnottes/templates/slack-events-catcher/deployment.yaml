@@ -79,19 +79,8 @@ spec:
             - name: "{{ $key }}"
               value: "{{ $value }}"
             {{- end }}
-          {{- if .Values.slack.enabled }}
-          volumeMounts:
-            - name : slack-events-catcher
-              mountPath : /usr/src/files/slack-events-catcher
-          {{- end }}
           resources:
             {{- toYaml .Values.slackEventsCatcher.resources | nindent 12 }}
-      {{- if .Values.persistence.enabled }}
-      volumes:
-        - name: slack-events-catcher
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-slackeventscatcher
-      {{- end }}
       {{- with .Values.slackEventsCatcher.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

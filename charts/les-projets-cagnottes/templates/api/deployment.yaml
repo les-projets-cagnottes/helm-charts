@@ -114,15 +114,11 @@ spec:
             - secretRef:
                 name: {{ .Values.microsoft.existingSecret.name }}
           {{- end }}
-          {{- if or .Values.persistence.enabled .Values.slack.enabled }}
+          {{- if .Values.persistence.enabled }}
           volumeMounts:
             {{- if .Values.persistence.enabled }}
             - name : data
               mountPath : /workspace/data
-            {{- end -}}
-            {{- if .Values.slack.enabled }}
-            - name : slack-events-catcher
-              mountPath : /workspace/slack-events-catcher
             {{- end -}}
           {{- end }}
           resources:
@@ -133,11 +129,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-data
-        {{- end -}}
-        {{- if .Values.slack.enabled }}
-        - name: slack-events-catcher
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-slackeventscatcher
         {{- end -}}
       {{- end -}}
       {{- with .Values.api.nodeSelector }}
