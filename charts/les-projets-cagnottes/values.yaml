@@ -248,7 +248,7 @@ slack: {}
   #   clientSecretKey: clientSecret
   #   signingSecretKey: signingSecret
 
-microsoft:
-  enabled: true
-  existingSecret:
-    name: les-projets-cagnottes-microsoft
+microsoft: {}
+  # enabled: true
+  # existingSecret:
+  #   name: les-projets-cagnottes-microsoft
