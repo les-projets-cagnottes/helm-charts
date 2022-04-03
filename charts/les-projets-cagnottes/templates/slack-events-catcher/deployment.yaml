@@ -50,8 +50,11 @@ spec:
           image: "{{ .Values.slackEventsCatcher.image.repository }}:{{ .Values.slackEventsCatcher.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.slackEventsCatcher.image.pullPolicy }}
           ports:
-            - name: node
-              containerPort: {{ .Values.slackEventsCatcher.containerPort }}
+            - name: controller
+              containerPort: {{ .Values.slackEventsCatcher.controller.containerPort }}
+              protocol: TCP
+            - name: bot
+              containerPort: {{ .Values.slackEventsCatcher.bot.containerPort }}
               protocol: TCP
           env:
             - name: PORT

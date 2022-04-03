@@ -64,6 +64,10 @@ spec:
               value: {{ .Values.web.url }}
             - name: FR_LESPROJETSCAGNOTTES_SLACK_ENABLED
               value: "{{ .Values.slack.enabled | default false }}"
+            {{- if .Values.slack.enabled }}
+            - name: FR_LESPROJETSCAGNOTTES_SLACK_CATCHER_URL
+              value: http://{{ include "les-projets-cagnottes.fullname" . }}-slack-events-catcher.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.slackEventsCatcher.controller.servicePort }}
+            {{- end }}
             - name: FR_LESPROJETSCAGNOTTES_MICROSOFT_ENABLED
               value: "{{ .Values.microsoft.enabled | default false }}"
             {{- if .Values.db.existingSecret }}
