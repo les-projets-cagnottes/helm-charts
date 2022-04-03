@@ -9,7 +9,11 @@ metadata:
 spec:
   type: {{ .Values.slackEventsCatcher.service.type }}
   ports:
-    - port: {{ .Values.slackEventsCatcher.service.port }}
+    - port: {{ .Values.slackEventsCatcher.controller.servicePort }}
+      targetPort: controller
+      protocol: TCP
+      name: http
+    - port: {{ .Values.slackEventsCatcher.bot.servicePort }}
       targetPort: node
       protocol: TCP
       name: http
