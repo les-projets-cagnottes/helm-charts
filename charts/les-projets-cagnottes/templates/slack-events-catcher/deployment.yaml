@@ -46,7 +46,7 @@ spec:
               protocol: TCP
           env:
             - name: LPC_CORE_API_URL
-              value: "http://les-projets-cagnottes-api/api"
+              value: "http://les-projets-cagnottes-api"
             - name: LPC_SEC_CONTROLLER_PORT
               value: "{{ .Values.slackEventsCatcher.controller.containerPort }}"
             - name: LPC_SEC_SLACK_PORT

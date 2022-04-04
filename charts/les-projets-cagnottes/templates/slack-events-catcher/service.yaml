@@ -10,11 +10,11 @@ spec:
   type: {{ .Values.slackEventsCatcher.service.type }}
   ports:
     - port: {{ .Values.slackEventsCatcher.controller.servicePort }}
-      targetPort: controller
+      targetPort: {{ .Values.slackEventsCatcher.controller.containerPort }}
       protocol: TCP
       name: controller
     - port: {{ .Values.slackEventsCatcher.bot.servicePort }}
-      targetPort: bot
+      targetPort: {{ .Values.slackEventsCatcher.bot.containerPort }}
       protocol: TCP
       name: bot
   selector:
