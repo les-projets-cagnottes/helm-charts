@@ -57,10 +57,12 @@ spec:
               containerPort: {{ .Values.slackEventsCatcher.bot.containerPort }}
               protocol: TCP
           env:
-            - name: PORT
-              value: "{{ .Values.slackEventsCatcher.port }}"
             - name: LPC_CORE_API_URL
               value: "http://les-projets-cagnottes-api/api"
+            - name: LPC_SEC_CONTROLLER_PORT
+              value: "{{ .Values.slackEventsCatcher.controller.containerPort }}"
+            - name: LPC_SEC_SLACK_PORT
+              value: "{{ .Values.slackEventsCatcher.bot.containerPort }}"
             {{- if .Values.slack.existingSecret }}
             - name: LPC_SLACK_SIGNING_SECRET
               valueFrom:
