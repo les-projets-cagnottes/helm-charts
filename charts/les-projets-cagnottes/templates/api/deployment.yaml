@@ -30,6 +30,15 @@ spec:
       serviceAccountName: {{ include "les-projets-cagnottes.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: update-permissions
+          image: busybox:1.35.0
+          command: ["/bin/sh", "-c", "chown -R 1000:1000 /workspace/data"]
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name : data
+              mountPath : /workspace/data
+          {{- end }}
       containers:
         - name: api
           securityContext:
@@ -120,20 +129,16 @@ spec:
           {{- end }}
           {{- if .Values.persistence.enabled }}
           volumeMounts:
-            {{- if .Values.persistence.enabled }}
             - name : data
               mountPath : /workspace/data
-            {{- end -}}
           {{- end }}
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
-      {{- if or .Values.persistence.enabled .Values.slack.enabled }}
+      {{- if .Values.persistence.enabled }}
       volumes:
-        {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "les-projets-cagnottes.fullname" .) }}-data
-        {{- end -}}
       {{- end -}}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:

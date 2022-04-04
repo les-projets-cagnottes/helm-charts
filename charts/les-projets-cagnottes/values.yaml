@@ -216,10 +216,10 @@ ingress:
         backend:
           serviceName: les-projets-cagnottes-api
           servicePort: 80
-      # - path: /slack/
-      #   backend:
-      #     serviceName: les-projets-cagnottes-slack-events-catcher
-      #     servicePort: 80
+      - path: /slack/
+        backend:
+          serviceName: les-projets-cagnottes-slack-events-catcher
+          servicePort: 3000
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
