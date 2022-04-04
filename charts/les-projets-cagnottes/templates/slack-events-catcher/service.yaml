@@ -12,11 +12,11 @@ spec:
     - port: {{ .Values.slackEventsCatcher.controller.servicePort }}
       targetPort: controller
       protocol: TCP
-      name: http
+      name: controller
     - port: {{ .Values.slackEventsCatcher.bot.servicePort }}
       targetPort: bot
       protocol: TCP
-      name: http
+      name: bot
   selector:
     {{- include "les-projets-cagnottes.selectorLabels" . | nindent 4 }}
     component: slack-events-catcher

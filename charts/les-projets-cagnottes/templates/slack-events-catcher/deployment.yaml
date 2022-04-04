@@ -31,18 +31,6 @@ spec:
       serviceAccountName: {{ include "les-projets-cagnottes.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.slackEventsCatcher.podSecurityContext | nindent 8 }}
-      initContainers:
-        - name: wait-for-token
-          image: busybox:1.28
-          command:
-            - sh
-            - -c
-            - until test -f /usr/src/files/slack-events-catcher/token; do echo en attente de fichier; sleep 2; done
-          {{- if .Values.slack.enabled }}
-          volumeMounts:
-            - name : slack-events-catcher
-              mountPath : /usr/src/files/slack-events-catcher
-          {{- end }}
       containers:
         - name: slack-events-catcher
           securityContext:
