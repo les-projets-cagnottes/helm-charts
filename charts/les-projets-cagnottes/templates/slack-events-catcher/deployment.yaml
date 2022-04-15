@@ -57,7 +57,7 @@ spec:
             - name: PGHOST
               value: {{ .Values.db.host }}
             - name: PGPORT
-              value: {{ .Values.db.port }}
+              value: "{{ .Values.db.port }}"
             - name: PGDATABASE
               value: {{ .Values.db.name }}
             {{- if .Values.db.existingSecret }}
