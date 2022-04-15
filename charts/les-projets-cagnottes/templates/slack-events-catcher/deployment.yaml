@@ -38,19 +38,22 @@ spec:
           image: "{{ .Values.slackEventsCatcher.image.repository }}:{{ .Values.slackEventsCatcher.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.slackEventsCatcher.image.pullPolicy }}
           ports:
-            - name: controller
-              containerPort: {{ .Values.slackEventsCatcher.controller.containerPort }}
+            - name: node
+              containerPort: 3000
               protocol: TCP
-            - name: bot
-              containerPort: {{ .Values.slackEventsCatcher.bot.containerPort }}
-              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: node
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: node
           env:
             - name: LPC_CORE_API_URL
-              value: "http://les-projets-cagnottes-api"
-            - name: LPC_SEC_CONTROLLER_PORT
-              value: "{{ .Values.slackEventsCatcher.controller.containerPort }}"
-            - name: LPC_SEC_SLACK_PORT
-              value: "{{ .Values.slackEventsCatcher.bot.containerPort }}"
+              value: "http://{{ include "les-projets-cagnottes.fullname" . }}:{{ .Values.api.service.port }}"
+            - name: LPC_SEC_EVENTS_PORT
+              value: "3000"
             {{- if .Values.slack.existingSecret }}
             - name: LPC_SLACK_SIGNING_SECRET
               valueFrom:
