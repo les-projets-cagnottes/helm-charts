@@ -71,7 +71,7 @@ spec:
             - name: PORT
               value: "{{ .Values.api.port }}"
             - name: SPRING_DATASOURCE_URL
-              value: {{ .Values.db.url }}
+              value: "jdbc:postgresql://{{ .Values.db.host }}:{{ .Values.db.port }}/{{ .Values.db.name }}"
             - name: FR_LESPROJETSCAGNOTTES_WEB_URL
               value: {{ .Values.web.url }}
             - name: FR_LESPROJETSCAGNOTTES_SLACK_ENABLED

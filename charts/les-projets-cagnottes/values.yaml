@@ -226,7 +226,9 @@ persistence: {}
   # size: 1Mi
 
 db:
-  url: jdbc:postgresql://lesprojetscagnottes-postgresql:5432/lesprojetscagnottes
+  host: lesprojetscagnottes-postgresql
+  port: 5432
+  name: lesprojetscagnottes
   # existingSecret:
   #   name: db-lesprojetscagnottes
   #   usernameKey: username
