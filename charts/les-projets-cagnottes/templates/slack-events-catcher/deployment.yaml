@@ -54,6 +54,29 @@ spec:
               value: "http://{{ include "les-projets-cagnottes.fullname" . }}:{{ .Values.api.service.port }}"
             - name: LPC_SEC_EVENTS_PORT
               value: "3000"
+            - name: PGHOST
+              value: {{ .Values.db.host }}
+            - name: PGPORT
+              value: {{ .Values.db.port }}
+            - name: PGDATABASE
+              value: {{ .Values.db.name }}
+            {{- if .Values.db.existingSecret }}
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.existingSecret.name }}
+                  key: {{ .Values.db.existingSecret.usernameKey }}
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.existingSecret.name }}
+                  key: {{ .Values.db.existingSecret.passwordKey }}
+            {{- else if .Values.postgresql.enabled }}
+            - name: PGUSER
+              value: {{ .Values.postgresql.postgresqlUsername }}
+            - name: PGPASSWORD
+              value: {{ .Values.postgresql.postgresqlPassword }}
+            {{- end }}
             {{- if .Values.slack.existingSecret }}
             - name: LPC_SLACK_SIGNING_SECRET
               valueFrom:
