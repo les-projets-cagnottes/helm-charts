@@ -34,6 +34,9 @@ spec:
         - name: update-permissions
           image: busybox:1.35.0
           command: ["/bin/sh", "-c", "chown -R 1000:1000 /workspace/data"]
+          securityContext:
+            runAsUser: 0
+            privileged: true
           {{- if .Values.persistence.enabled }}
           volumeMounts:
             - name : data
@@ -62,7 +65,7 @@ spec:
             httpGet:
               path: /actuator/health
               port: api
-            failureThreshold: 15
+            failureThreshold: 30
           {{- end }}
           env:
             - name: PORT
@@ -75,7 +78,7 @@ spec:
               value: "{{ .Values.slack.enabled | default false }}"
             {{- if .Values.slack.enabled }}
             - name: FR_LESPROJETSCAGNOTTES_SLACK_CATCHER_URL
-              value: http://{{ include "les-projets-cagnottes.fullname" . }}-slack-events-catcher.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.slackEventsCatcher.controller.servicePort }}
+              value: http://{{ include "les-projets-cagnottes.fullname" . }}-slack-events-catcher.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.slackEventsCatcher.service.port }}
             {{- end }}
             - name: FR_LESPROJETSCAGNOTTES_MICROSOFT_ENABLED
               value: "{{ .Values.microsoft.enabled | default false }}"

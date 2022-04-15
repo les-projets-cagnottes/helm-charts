@@ -9,14 +9,10 @@ metadata:
 spec:
   type: {{ .Values.slackEventsCatcher.service.type }}
   ports:
-    - port: {{ .Values.slackEventsCatcher.controller.servicePort }}
-      targetPort: {{ .Values.slackEventsCatcher.controller.containerPort }}
+    - port: {{ .Values.slackEventsCatcher.service.port }}
+      targetPort: node
       protocol: TCP
-      name: controller
-    - port: {{ .Values.slackEventsCatcher.bot.servicePort }}
-      targetPort: {{ .Values.slackEventsCatcher.bot.containerPort }}
-      protocol: TCP
-      name: bot
+      name: api
   selector:
     {{- include "les-projets-cagnottes.selectorLabels" . | nindent 4 }}
     component: slack-events-catcher
