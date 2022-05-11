@@ -33,14 +33,14 @@ spec:
       initContainers:
         - name: update-permissions
           image: busybox:1.35.0
-          command: ["/bin/sh", "-c", "chown -R 1000:1000 /workspace/data"]
+          command: ["/bin/sh", "-c", "mkdir -p /workspace/files/data && chown -R 1000:1000 /workspace/files/data"]
           securityContext:
             runAsUser: 0
             privileged: true
           {{- if .Values.persistence.enabled }}
           volumeMounts:
             - name : data
-              mountPath : /workspace/data
+              mountPath : /workspace/files
           {{- end }}
       containers:
         - name: api
@@ -133,7 +133,7 @@ spec:
           {{- if .Values.persistence.enabled }}
           volumeMounts:
             - name : data
-              mountPath : /workspace/data
+              mountPath : /workspace/files
           {{- end }}
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
