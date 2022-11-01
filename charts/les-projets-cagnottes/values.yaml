@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.13.0"
+    tag: "0.14.0"
 
   containerPort: 8080
 
@@ -69,7 +69,7 @@ web:
   image:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
-    tag: "0.12.0"
+    tag: "0.13.1"
 
   containerPort: 80
 
@@ -237,9 +237,12 @@ db:
 postgresql:
   enabled: true
   fullnameOverride: lesprojetscagnottes-postgresql
-  postgresqlUsername: lesprojetscagnottes
-  postgresqlPassword: lesprojetscagnottes
-  postgresqlDatabase: lesprojetscagnottes
+  auth:
+    username: lesprojetscagnottes
+    password: lesprojetscagnottes
+    database: lesprojetscagnottes
+  volumePermissions:
+    enabled: true
 
 slack: {}
   # enabled: true
