@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.14.0"
+    tag: "0.14.1"
 
   containerPort: 8080
 
@@ -69,20 +69,18 @@ web:
   image:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
-    tag: "0.13.1"
+    tag: "0.14.0"
 
   containerPort: 80
 
   url: "http://les-projets-cagnottes.localhost"
   config: |-
     {
-      "slackEnabled": true,
-      "slackClientId": "115462816321.761013265159"
-      "webUrl": "http://les-projets-cagnottes.localhost",
-      "apiUrl": "http://les-projets-cagnottes.localhost/api",
-      "slackEnabled": true,
+      "webUrl": "http://localhost:4200",
+      "apiUrl": "http://localhost:8080/api",
+      "slackEnabled": false,
       "slackClientId": "1267900044419.1280463132273",
-      "microsoftEnabled": true,
+      "microsoftEnabled": false,
       "microsoftTenantId": "ab8f3573-a42c-4b8b-a615-f03fd683bbbd",
       "microsoftClientId": "08a651e0-9f49-4984-9834-2ad26a490f86"
     }
