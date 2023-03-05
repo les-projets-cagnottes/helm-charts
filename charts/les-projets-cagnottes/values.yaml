@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.15.1"
+    tag: "0.15.2"
 
   containerPort: 8080
 
@@ -51,11 +51,10 @@ api:
 
   resources: {}
     # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
+    #   memory: 512Mi
     # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    #   cpu: 5m
+    #   memory: 512Mi
 
   nodeSelector: {}
 
@@ -69,7 +68,7 @@ web:
   image:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
-    tag: "0.15.0"
+    tag: "0.15.1"
 
   containerPort: 80
 
@@ -111,11 +110,10 @@ web:
 
   resources: {}
     # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
+    #   memory: 64Mi
     # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    #   cpu: 1m
+    #   memory: 64Mi
     
   nodeSelector: {}
 
@@ -130,7 +128,7 @@ slackEventsCatcher:
   image:
     repository: lesprojetscagnottes/slack-events-catcher
     pullPolicy: IfNotPresent
-    tag: "0.6.0"
+    tag: "0.6.1"
 
   service:
     type: ClusterIP
@@ -167,11 +165,10 @@ slackEventsCatcher:
 
   resources: {}
     # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
+    #   memory: 32Mi
     # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    #   cpu: 1m
+    #   memory: 32Mi
 
   nodeSelector: {}
 
