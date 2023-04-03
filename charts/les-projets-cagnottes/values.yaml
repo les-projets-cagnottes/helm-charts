@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.16.2"
+    tag: "0.16.3"
 
   containerPort: 8080
 
