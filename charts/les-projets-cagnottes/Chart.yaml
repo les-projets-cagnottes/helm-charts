@@ -2,10 +2,10 @@ apiVersion: v2
 name: les-projets-cagnottes
 description: Helm chart to deploy Les Projets Cagnottes in a Kubernetes cluster
 type: application
-version: 0.12.3
-appVersion: "0.16.3"
+version: 0.13.0
+appVersion: "0.17.0"
 dependencies:
 - name: postgresql
-  version: "12.2.7"
+  version: "13.1.5"
   repository: "https://charts.bitnami.com/bitnami"
   condition: postgresql.enabled

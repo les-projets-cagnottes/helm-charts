@@ -9,7 +9,7 @@ api:
   image:
     repository: lesprojetscagnottes/api
     pullPolicy: IfNotPresent
-    tag: "0.16.3"
+    tag: "0.17.0"
 
   containerPort: 8080
 
@@ -68,7 +68,7 @@ web:
   image:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
-    tag: "0.15.1"
+    tag: "0.16.0"
 
   containerPort: 80
 
@@ -128,7 +128,7 @@ slackEventsCatcher:
   image:
     repository: lesprojetscagnottes/slack-events-catcher
     pullPolicy: IfNotPresent
-    tag: "0.6.1"
+    tag: "0.7.0"
 
   service:
     type: ClusterIP
