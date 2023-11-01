@@ -68,7 +68,7 @@ web:
   image:
     repository: lesprojetscagnottes/web
     pullPolicy: IfNotPresent
-    tag: "0.16.2"
+    tag: "0.16.3"
 
   containerPort: 80
 
