@@ -128,7 +128,7 @@ slackEventsCatcher:
   image:
     repository: lesprojetscagnottes/slack-events-catcher
     pullPolicy: IfNotPresent
-    tag: "0.7.0"
+    tag: "0.7.1"
 
   service:
     type: ClusterIP
